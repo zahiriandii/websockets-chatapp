@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+</head>
+<body>
+<input id="username" placeholder="Your name">
+<button onclick="connect()">Join</button>
+<div id="messages"></div>
+<input id="msg" placeholder="Message">
+<button onclick="send()">Send</button>
+
+<script>
+    let client;
+
+    function connect() {
+        const name = document.getElementById('username').value;
+        client = new StompJs.Client({ brokerURL: 'ws://localhost:8080/ws' });
+
+        client.onConnect = () => {
+            client.subscribe('/topic/public', (frame) => {
+                const m = JSON.parse(frame.body);
+                const line = m.type === 'CHAT'
+                    ? m.sender + ': ' + m.content
+                    : m.sender + ' ' + (m.type === 'JOIN' ? 'joined' : 'left');
+                document.getElementById('messages').innerHTML += line + '<br>';
+            });
+
+            client.publish({
+                destination: '/app/chat.join',
+                body: JSON.stringify({ type: 'JOIN', sender: name })
+            });
+        };
+
+        client.activate();
+    }
+
+    function send() {
+        client.publish({
+            destination: '/app/chat.send',
+            body: JSON.stringify({
+                type: 'CHAT',
+                sender: document.getElementById('username').value,
+                content: document.getElementById('msg').value
+            })
+        });
+    }
+</script>
+</body>
+</html>
