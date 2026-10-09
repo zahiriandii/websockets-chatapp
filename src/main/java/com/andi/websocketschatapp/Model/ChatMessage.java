@@ -1,6 +1,7 @@
 package com.andi.websocketschatapp.Model;
 
 import com.andi.websocketschatapp.Enum.MessageType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.awt.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
 public class ChatMessage
 {
     private MessageType type;
