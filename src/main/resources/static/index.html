@@ -15,7 +15,12 @@
 
     function connect() {
         const name = document.getElementById('username').value;
-        client = new StompJs.Client({ brokerURL: 'ws://localhost:8080/ws' });
+        client = new StompJs.Client({
+            brokerURL: 'ws://localhost:8080/ws',
+            connectHeaders: {
+                Authorization: 'token-' + name
+            }
+        });
 
         client.onConnect = () => {
             client.subscribe('/topic/public', (frame) => {
@@ -31,6 +36,12 @@
                 body: JSON.stringify({ type: 'JOIN', sender: name })
             });
         };
+
+        client.onStompError = (frame) => {
+            console.log('Rejected:', frame.headers['message']);
+            document.getElementById('messages').innerHTML += 'Connection refused: invalid token<br>';
+            client.deactivate();
+        }
 
         client.activate();
     }
