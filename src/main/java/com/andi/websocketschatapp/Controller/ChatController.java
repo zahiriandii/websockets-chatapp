@@ -46,7 +46,8 @@ public class ChatController
     {
         if (!this.roomService.canAccessRoom(room,principal.getName()))
         {
-            return;
+            simpMessagingTemplate.convertAndSendToUser(principal.getName(),
+                    "/queue/errors","Not a memeber of this room" + room);
         }
 
         simpMessagingTemplate.convertAndSend("/topic/room/" + room,
