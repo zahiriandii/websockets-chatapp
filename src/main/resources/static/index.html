@@ -56,6 +56,23 @@
             })
         });
     }
+
+    function joinRoom (room)
+    {
+        client.subscribe('/topic/room' + room, (frame) => {
+            const m = JSON.parse(frame.body);
+            document.getElementById('messages').innerHTML += ' [ ' + room + ' ] ' + m.sender + ' : ' + m.content + '<br/>';
+        })
+    }
+
+    function sendToRoom (room, text)
+    {
+        client.publish({
+            destination: '/app/chat.room' + room,
+            body: JSON.stringify({ content: text})
+        })
+    }
+
 </script>
 </body>
 </html>
