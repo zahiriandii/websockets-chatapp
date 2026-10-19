@@ -19,9 +19,12 @@
             brokerURL: 'ws://localhost:8080/ws',
             connectHeaders: {
                 Authorization: 'token-' + name
-            }
+            },
+            heartbeatIncoming: 1000,
+            heartbeatOutgoing: 1000,
         });
 
+        client.debug = (str) => console.log('STOMP:',str);
         client.onConnect = () => {
             client.subscribe('/topic/public', (frame) => {
                 const m = JSON.parse(frame.body);
