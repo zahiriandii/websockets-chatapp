@@ -9,6 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -36,6 +37,13 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(authChannelInterceptor);
+    }
+
+    @Override
+    public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+        registry.setSendTimeLimit(15 * 10000)
+                .setSendBufferSizeLimit(512 * 1024)
+                .setMessageSizeLimit(64 * 1024);
     }
 
     public TaskScheduler heartbeatScheduler() {
