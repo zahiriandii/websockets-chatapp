@@ -14,5 +14,5 @@ public interface RoomRepository extends JpaRepository<Room,Long>
 {
     List<Room> findByRoomName(String roomName);
     /** Finds Members by username using the Room_Users table */
-    Set<User> findMembersByUsername(String username);
+    List<Room> findByMembersUsername(String username);
 }

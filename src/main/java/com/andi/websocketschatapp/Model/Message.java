@@ -22,6 +22,6 @@ public class Message
     @ManyToOne
     private User sender;
     @ManyToOne
-    private Room room;
+    private Room roomName;
     private LocalDateTime createdAt;
 }
