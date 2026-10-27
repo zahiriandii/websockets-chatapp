@@ -21,9 +21,13 @@ public class Room
     private Long id;
     @Column(unique = true)
     private String roomName;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "room_members",
                        joinColumns = @JoinColumn(name = "room_id"),
                        inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> members = new HashSet<>();
+
+    public Room(String roomName) {
+        this.roomName = roomName;
+    }
 }

@@ -22,4 +22,13 @@ public class User
     private String email;
     private String firstName;
     private String lastName;
+
+    public User(String username, String password, String mail, String firstName, String lastName) {
+        this.username = username;
+        this.password = password;
+        this.email = mail;
+        this.firstName = firstName;
+        this.lastName = lastName;
+
+    }
 }
