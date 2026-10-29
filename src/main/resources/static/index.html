@@ -62,7 +62,7 @@
 
     function joinRoom (room)
     {
-        client.subscribe('/topic/room' + room, (frame) => {
+        client.subscribe('/topic/room/' + room, (frame) => {
             const m = JSON.parse(frame.body);
             document.getElementById('messages').innerHTML += ' [ ' + room + ' ] ' + m.sender + ' : ' + m.content + '<br/>';
         })
