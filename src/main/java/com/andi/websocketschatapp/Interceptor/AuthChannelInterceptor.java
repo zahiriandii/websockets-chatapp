@@ -1,5 +1,7 @@
 package com.andi.websocketschatapp.Interceptor;
 
+import com.andi.websocketschatapp.Repository.RoomRepository;
+import com.andi.websocketschatapp.Repository.UserRepository;
 import com.andi.websocketschatapp.Service.RoomService;
 import com.andi.websocketschatapp.Service.TokenService;
 import org.jspecify.annotations.Nullable;
@@ -18,11 +20,13 @@ import java.security.Principal;
 public class AuthChannelInterceptor implements ChannelInterceptor
 {
     private final TokenService tokenService;
-    private final RoomService roomService;
+    private final RoomRepository roomRepository;
+    //private final RoomService roomService;
 
-    public AuthChannelInterceptor(TokenService tokenService, RoomService roomService) {
+    public AuthChannelInterceptor(TokenService tokenService, RoomRepository roomRepository) {
         this.tokenService = tokenService;
-        this.roomService = roomService;
+        //this.roomService = roomService;
+        this.roomRepository = roomRepository;
     }
 
     @Override
@@ -59,8 +63,9 @@ public class AuthChannelInterceptor implements ChannelInterceptor
             }
 
             String room = destination.substring(ROOM_PREFIX.length());
-            if (user == null || !roomService.canAccessRoom(room, user.getName()))
+            if (user == null || !roomRepository.isMember(room,user.getName()))
             {
+
                 throw new MessageDeliveryException("Access denied");
             }
 

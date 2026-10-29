@@ -27,7 +27,7 @@ public class DataSeeder implements CommandLineRunner
             //already filled with data
             return;
         }
-
+        //!!remember when we add spring security don't use plain passwords, we need to use passwordEncoder
         User andi = userRepository.save(new User ("andi", "password", "andi@example.com","andi","zahiri"));
         User bob = userRepository.save(new User ("bob", "password", "bob@example.com","bob","bobii"));
         User alice = userRepository.save(new User ("alice", "password", "alice@example.com","alice","alicee"));
