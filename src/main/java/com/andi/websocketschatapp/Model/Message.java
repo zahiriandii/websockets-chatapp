@@ -24,4 +24,13 @@ public class Message
     @ManyToOne
     private Room roomName;
     private LocalDateTime createdAt;
+
+    public Message(String content, User sender, Room roomName, LocalDateTime createdAt)
+    {
+        this.content = content;
+        this.sender = sender;
+        this.roomName = roomName;
+        this.createdAt = createdAt;
+    }
+
 }
