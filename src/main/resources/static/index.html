@@ -20,8 +20,8 @@
             connectHeaders: {
                 Authorization: 'token-' + name
             },
-            heartbeatIncoming: 1000,
-            heartbeatOutgoing: 1000,
+            heartbeatIncoming: 10000,
+            heartbeatOutgoing: 10000,
         });
 
         client.debug = (str) => console.log('STOMP:',str);

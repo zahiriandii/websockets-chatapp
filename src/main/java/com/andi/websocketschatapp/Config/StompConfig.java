@@ -24,7 +24,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry.enableSimpleBroker("/topic")
-                .setHeartbeatValue(new long []{1000,1000})
+                .setHeartbeatValue(new long []{10000,10000})
                 .setTaskScheduler(heartbeatScheduler());
         registry.setApplicationDestinationPrefixes("/app");
     }
