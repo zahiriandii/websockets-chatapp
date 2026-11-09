@@ -5,6 +5,7 @@ import com.andi.websocketschatapp.Model.User;
 import com.andi.websocketschatapp.Repository.RoomRepository;
 import com.andi.websocketschatapp.Repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,10 +15,12 @@ public class DataSeeder implements CommandLineRunner
 {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DataSeeder(UserRepository userRepository, RoomRepository roomRepository) {
+    public DataSeeder(UserRepository userRepository, RoomRepository roomRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -28,9 +31,9 @@ public class DataSeeder implements CommandLineRunner
             return;
         }
         //!!remember when we add spring security don't use plain passwords, we need to use passwordEncoder
-        User andi = userRepository.save(new User ("andi", "password", "andi@example.com","andi","zahiri"));
-        User bob = userRepository.save(new User ("bob", "password", "bob@example.com","bob","bobii"));
-        User alice = userRepository.save(new User ("alice", "password", "alice@example.com","alice","alicee"));
+        User andi = userRepository.save(new User ("andi", passwordEncoder.encode("password"), "andi@example.com","andi","zahiri"));
+        User bob = userRepository.save(new User ("bob", passwordEncoder.encode("password"), "bob@example.com","bob","bobii"));
+        User alice = userRepository.save(new User ("alice", passwordEncoder.encode("password"), "alice@example.com","alice","alicee"));
 
 
         Room general = new Room ("general");
