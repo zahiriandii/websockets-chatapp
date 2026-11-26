@@ -16,6 +16,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
@@ -64,7 +65,7 @@ public class ChatController
             simpMessagingTemplate.convertAndSendToUser(principal.getName(),
                     "/queue/errors","Not a memeber of this room" + room);
         }
-        User sender = this.userRepository.findByUsername(principal.getName());
+        User sender = this.userRepository.findByUsername(principal.getName()).orElseThrow();
         Room room1 = this.roomRepository.findByRoomName(room);
 
         Message message = new Message(chatMessage.getContent(),sender,room1, LocalDateTime.now());
