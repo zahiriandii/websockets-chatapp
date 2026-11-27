@@ -34,7 +34,7 @@ public class AuthController
     {
 
         return userRepository.findByUsername(request.username())
-                .filter(user -> passwordEncoder.matches(user.getPassword(), request.password()))
+                .filter(user -> passwordEncoder.matches(request.password(), user.getPassword()))
                 .map(user -> ResponseEntity.ok(
                         new LoginResponse(jwtService.generateToken(user.getUsername()), user.getUsername())
                 )).orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
